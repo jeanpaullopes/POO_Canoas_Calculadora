@@ -96,7 +96,6 @@ public class CalculadoraView extends javax.swing.JFrame {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				displayEdit.setText( CalculadoraController.calcula(displayEdit.getText()) );
 				temOperacao = false;
-				tela.setTitle(CalculadoraView.titulo);
 
 
 			}

@@ -17,7 +17,9 @@ public class CalculadoraController {
 	public CalculadoraController() {
 		this.operacoes = new HashMap();
 		this.operacoes.put("+",new Soma());
-		this.operacoes.put("^",new Potencia());
+		this.operacoes.put("-",new Subtracao());
+		//this.operacoes.put("^",new Potencia());
+		//this.operacoes.put("!",new Fatorial());
 		//this.operacoes[2] = new Soma();
 		//this.operacoes[3] = new Soma();
 	}
@@ -29,7 +31,11 @@ public class CalculadoraController {
 	private void escolheOperacao() {
 		Scanner scan;
 		scan = new Scanner(System.in);
-		System.out.println("escolha operação ( + - * / ^ ) ");
+		String ops =  "";
+		for (String op : CalculadoraController.operacoes.keySet()) {
+			ops += op+" ";
+		};
+		System.out.println("escolha operação ( "+ops+" ) ");
 		this.operacao = scan.next();
 	}
 
@@ -56,10 +62,15 @@ public class CalculadoraController {
 			this.entrada1();
 			this.escolheOperacao();
 			this.entrada2();
-
-			System.out.println(this.descreverOperacao()
-					+this.operacoes.get(this.operacao).calcular(op1, op2)
-			);
+			Operacao opEscolhida = CalculadoraController.operacoes.get(this.operacao);
+			//if (this.operacao.equals("+")) {
+				System.out.println(this.op1+opEscolhida.getSimbolo()+this.op2+" = "+
+						opEscolhida.calcular(this.op1,this.op2));
+				CalculadoraController.operacoes.put("^", new Potencia());
+			//}
+			//System.out.println(this.descreverOperacao()
+			//		+this.operacoes.get(this.operacao).calcular(op1, op2)
+			//);
 		}
 
 
@@ -68,9 +79,12 @@ public class CalculadoraController {
 	public static void inicializa() {
 		CalculadoraController.operacoes = new HashMap();
 		CalculadoraController.operacoes.put("+",new Soma());
+		CalculadoraController.operacoes.put("-",new Subtracao());
 		CalculadoraController.operacoes.put("^",new Potencia());
 		CalculadoraController.operacoes.put("!",new Fatorial());
 	}
+
+
 	public static void iniciaCalculadora(String nome) {
 		inicializa();
 		CalculadoraView cv = new CalculadoraView();
@@ -87,8 +101,11 @@ public class CalculadoraController {
 		System.out.println("===>");
 		System.out.println(calc);
 		String[] split = calc.split(" ");
+		for(int i =0; i < split.length; i++) {
+			System.out.println("split["+i+"]="+split[i]);
+		}
 		String op1 = split[0];
-		String operacao = split[1];
+		String operacao = split[1];                             //  "-"
 		Operacao objOperacao = CalculadoraController.operacoes.get(operacao);
 
 		float fop1 = Float.parseFloat(op1);
